@@ -1,0 +1,15 @@
+{
+  "name": "ember-add-in-repo-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "devDependencies": {
+    "broccoli": "^1.1.4",
+    "broccoli-cli": "^1.0.0",
+    "chai": "*",
+    "mocha": "*"
+  }
+}
