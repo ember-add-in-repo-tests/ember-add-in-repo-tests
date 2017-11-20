@@ -90,4 +90,49 @@ describe('add-in-repo-tests-to-host', () => {
 
     input.dispose();
   });
+
+  it('handles addons without test directories', async () => {
+    const input = await createTempDir();
+
+    input.write({
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
+      lib: {
+        foo: {
+          'index.js': `module.exports = { name: 'foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
+        },
+      },
+      tests: {
+        unit: {
+          'foo-test.js': `console.log('hello world')`,
+        },
+      },
+    });
+
+    const project = {
+      root: input.path(),
+      addons: [
+        {
+          name: 'foo',
+          root: `${input.path()}/lib/foo`,
+          includeTestsInHost: true,
+        },
+      ],
+      name: 'foo-app',
+    };
+
+    const node = addInRepoTestsToHost(
+      project,
+      addon => addon.includeTestsInHost
+    );
+    const output = await buildOutput(node);
+
+    expect(output.read()).to.deep.equal({
+      unit: { 'foo-test.js': `console.log('hello world')` },
+    });
+
+    input.dispose();
+  });
 });
