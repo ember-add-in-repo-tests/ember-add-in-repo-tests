@@ -31,6 +31,8 @@ describe('add-in-repo-tests-to-host', () => {
     expect(output.read()).to.deep.equal({
       unit: { 'foo-test.js': `console.log('hello world')` },
     });
+
+    input.dispose();
   });
 
   it('Should merge unit tests of in repo addon', async () => {
@@ -85,5 +87,7 @@ describe('add-in-repo-tests-to-host', () => {
         'foo-test.js': `console.log('hello world')`,
       },
     });
+
+    input.dispose();
   });
 });
