@@ -12,5 +12,10 @@
     "broccoli-test-helper": "^1.2.0",
     "chai": "*",
     "mocha": "*"
+  },
+  "dependencies": {
+    "broccoli-funnel": "^2.0.1",
+    "broccoli-merge-trees": "^2.0.0",
+    "broccoli-source": "^1.1.0"
   }
 }

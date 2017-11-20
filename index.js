@@ -1,3 +1,3 @@
 module.exports = {
-  addTestToHost: require('./lib/add-tests-to-host')
+  addInRepoTestsToHost: require('./lib/add-in-repo-tests-to-host'),
 };

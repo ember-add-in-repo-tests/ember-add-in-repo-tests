@@ -3,9 +3,9 @@
 const { assert, expect } = require('chai');
 const { createTempDir, buildOutput } = require('broccoli-test-helper');
 
-const addTestsToHost = require('../lib/add-tests-to-host');
+const addInRepoTestsToHost = require('../lib/add-in-repo-tests-to-host');
 
-describe('add-tests-to-host', () => {
+describe('add-in-repo-tests-to-host', () => {
   it('Should always return app unit test trees', async () => {
     const input = await createTempDir();
 
@@ -26,7 +26,7 @@ describe('add-tests-to-host', () => {
       root: input.path(),
     };
 
-    const node = addTestsToHost(project, () => false);
+    const node = addInRepoTestsToHost(project, () => false);
     const output = await buildOutput(node);
     expect(output.read()).to.deep.equal({
       unit: { 'foo-test.js': `console.log('hello world')` },
@@ -70,7 +70,10 @@ describe('add-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addTestsToHost(project, addon => addon.includeTestsInHost);
+    const node = addInRepoTestsToHost(
+      project,
+      addon => addon.includeTestsInHost
+    );
     const output = await buildOutput(node);
     expect(output.read()).to.deep.equal({
       foo: {
