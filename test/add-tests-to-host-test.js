@@ -116,7 +116,7 @@ describe('add-in-repo-tests-to-host', () => {
       addons: [
         {
           name: 'foo',
-          root: `${input.path()}/lib/foo`,
+          root: input.path('lib/foo'),
           includeTestsInHost: true,
         },
       ],
