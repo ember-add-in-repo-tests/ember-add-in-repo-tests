@@ -67,6 +67,7 @@ We can now override the test tree in `ember-cli-build`. Full code below
 
 ```javascript
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const inRepoAddonPredicate = (addon) => addon.includeTestsInHosts;
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
