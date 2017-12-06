@@ -135,4 +135,81 @@ describe('add-in-repo-tests-to-host', () => {
 
     input.dispose();
   });
+
+  it('addon recursively computes test trees based on initial predicate', async () => {
+    const input = await createTempDir();
+
+    input.write({
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
+      lib: {
+        foo: {
+          'index.js': `module.exports = { name: 'foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
+          tests: {
+            unit: {
+              'foo-test.js': `console.log('foo-test')`,
+            },
+          },
+        },
+        'bar-foo': {
+          'index.js': `module.exports = { name: 'bar-foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
+          tests: {
+            unit: {
+              'bar-foo-test.js': `console.log('bar-foo-test')`,
+            },
+          },
+        },
+      },
+      tests: {
+        unit: {
+          'foo-test.js': `console.log('hello world')`,
+        },
+      },
+    });
+
+    const project = {
+      root: input.path(),
+      addons: [
+        {
+          name: 'foo',
+          root: input.path('lib/foo'),
+          includeTestsInHost: true,
+          addons: [
+            {
+              name: 'bar-foo',
+              root: input.path('lib/bar-foo'),
+              includeTestsInHost: true,
+            },
+          ],
+        },
+      ],
+      name: 'foo-app',
+    };
+
+    const node = addInRepoTestsToHost(
+      project,
+      addon => addon.includeTestsInHost
+    );
+    const output = await buildOutput(node);
+    expect(output.read()).to.deep.equal({
+      foo: {
+        unit: {
+          'foo-test.js': `console.log('foo-test')`,
+        },
+      },
+      'bar-foo': {
+        unit: {
+          'bar-foo-test.js': `console.log('bar-foo-test')`,
+        },
+      },
+      unit: {
+        'foo-test.js': `console.log('hello world')`,
+      },
+    });
+
+    input.dispose();
+  });
 });
