@@ -74,7 +74,6 @@ module.exports = function(defaults) {
     trees: {
       tests: addInRepoTestsToHost(defaults.project, inRepoAddonPredicate),
     },
-    hinting: false,
   });
 
   return app.toTree();
