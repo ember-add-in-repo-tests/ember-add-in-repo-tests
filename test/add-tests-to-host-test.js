@@ -2,6 +2,10 @@
 
 const { expect } = require('chai');
 const { createTempDir, buildOutput } = require('broccoli-test-helper');
+const { glob } = require('glob');
+
+const fs = require('fs');
+const Funnel = require('broccoli-funnel');
 
 const addInRepoTestsToHost = require('../lib/add-in-repo-tests-to-host');
 
@@ -131,6 +135,46 @@ describe('add-in-repo-tests-to-host', () => {
 
     expect(output.read()).to.deep.equal({
       unit: { 'foo-test.js': `console.log('hello world')` },
+    });
+
+    input.dispose();
+  });
+
+  it('filters addons by processing test contents', async () => {
+    const input = await createTempDir();
+
+    input.write({
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
+      tests: {
+        unit: {
+          'foo-test.js': `console.log('hello world')`,
+        },
+      },
+    });
+
+    const project = {
+      root: input.path(),
+      addons: [],
+      name: 'foo-app',
+    };
+
+    const filterRepoAddon = dir => {
+      glob.sync(`${dir}/*/**-test.js`).forEach(file => {
+        const content = fs.readFileSync(file)
+          .toString()
+          .replace('console.log', 'console.error');
+
+        fs.writeFileSync(file, content, 'utf8');
+      })
+      return new Funnel(dir);
+    }
+
+    const node = await addInRepoTestsToHost(project, addon => addon.includeTestsInHost, filterRepoAddon);
+    const output = await buildOutput(node);
+    expect(output.read()).to.deep.equal({
+      unit: { 'foo-test.js': `console.error('hello world')` },
     });
 
     input.dispose();
