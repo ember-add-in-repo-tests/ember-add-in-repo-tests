@@ -53,21 +53,21 @@ module.exports = {
     return true;
   },
 
-  includeTestsInHosts: true,
+  includeTestsInHost: true,
 };
 ```
 
-We can definte the predicate as
+We can define the predicate as
 
 ```javascript
-const inRepoAddonPredicate = addon => addon.includeTestsInHosts;
+const inRepoAddonPredicate = addon => addon.includeTestsInHost;
 ```
 
 We can now override the test tree in `ember-cli-build`. Full code below
 
 ```javascript
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const inRepoAddonPredicate = (addon) => addon.includeTestsInHosts;
+const inRepoAddonPredicate = (addon) => addon.includeTestsInHost;
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
