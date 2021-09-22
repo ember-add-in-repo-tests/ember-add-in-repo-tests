@@ -78,7 +78,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(
       project,
-      addon => addon.includeTestsInHost
+      (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
     expect(output.read()).to.deep.equal({
@@ -129,7 +129,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(
       project,
-      addon => addon.includeTestsInHost
+      (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
 
@@ -159,19 +159,24 @@ describe('add-in-repo-tests-to-host', () => {
       addons: [],
       name: 'foo-app',
     };
-
-    const filterRepoAddon = dir => {
-      glob.sync(`${dir}/*/**-test.js`).forEach(file => {
-        const content = fs.readFileSync(file)
+    debugger;
+    const filterRepoAddon = (dir) => {
+      glob.sync(`${dir._directoryPath}/*/**-test.js`).forEach((file) => {
+        const content = fs
+          .readFileSync(file)
           .toString()
           .replace('console.log', 'console.error');
 
         fs.writeFileSync(file, content, 'utf8');
-      })
+      });
       return new Funnel(dir);
-    }
+    };
 
-    const node = await addInRepoTestsToHost(project, addon => addon.includeTestsInHost, filterRepoAddon);
+    const node = await addInRepoTestsToHost(
+      project,
+      (addon) => addon.includeTestsInHost,
+      filterRepoAddon
+    );
     const output = await buildOutput(node);
     expect(output.read()).to.deep.equal({
       unit: { 'foo-test.js': `console.error('hello world')` },
@@ -235,7 +240,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(
       project,
-      addon => addon.includeTestsInHost
+      (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
     expect(output.read()).to.deep.equal({
@@ -306,7 +311,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(
       project,
-      addon => addon.includeTestsInHost
+      (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
 
@@ -393,7 +398,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(
       project,
-      addon => addon.includeTestsInHost
+      (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
 
