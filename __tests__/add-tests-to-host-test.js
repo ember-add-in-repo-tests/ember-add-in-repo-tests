@@ -1,6 +1,6 @@
 'use strict';
 
-const { createTempDir, buildOutput } = require('broccoli-test-helper');
+const { createTempDir, createBuilder } = require('broccoli-test-helper');
 const { glob } = require('glob');
 
 const fs = require('fs');
@@ -30,7 +30,10 @@ describe('add-in-repo-tests-to-host', () => {
     };
 
     const node = addInRepoTestsToHost(project, () => false);
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
+
     expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.log('hello world')` },
     });
@@ -79,7 +82,10 @@ describe('add-in-repo-tests-to-host', () => {
       project,
       (addon) => addon.includeTestsInHost
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
+
     expect(output.read()).toStrictEqual({
       foo: {
         unit: {
@@ -130,7 +136,9 @@ describe('add-in-repo-tests-to-host', () => {
       project,
       (addon) => addon.includeTestsInHost
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
 
     expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.log('hello world')` },
@@ -176,7 +184,10 @@ describe('add-in-repo-tests-to-host', () => {
       (addon) => addon.includeTestsInHost,
       filterRepoAddon
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
+
     expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.error('hello world')` },
     });
@@ -241,7 +252,10 @@ describe('add-in-repo-tests-to-host', () => {
       project,
       (addon) => addon.includeTestsInHost
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
+
     expect(output.read()).toStrictEqual({
       foo: {
         unit: {
@@ -312,7 +326,9 @@ describe('add-in-repo-tests-to-host', () => {
       project,
       (addon) => addon.includeTestsInHost
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
 
     expect(output.read()).toStrictEqual({
       'bar-foo': {
@@ -399,7 +415,9 @@ describe('add-in-repo-tests-to-host', () => {
       project,
       (addon) => addon.includeTestsInHost
     );
-    const output = await buildOutput(node);
+    const output = createBuilder(node);
+
+    await output.build();
 
     expect(output.read()).toStrictEqual({
       foo: {
