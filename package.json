@@ -19,7 +19,7 @@
   "devDependencies": {
     "broccoli": "^3.5.2",
     "broccoli-cli": "^1.0.0",
-    "broccoli-test-helper": "^1.2.0",
+    "broccoli-test-helper": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.4.2",
