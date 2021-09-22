@@ -17,7 +17,7 @@
     "broccoli-source": "^1.1.0"
   },
   "devDependencies": {
-    "broccoli": "^1.1.4",
+    "broccoli": "^3.5.2",
     "broccoli-cli": "^1.0.0",
     "broccoli-test-helper": "^1.2.0",
     "eslint": "^7.32.0",
