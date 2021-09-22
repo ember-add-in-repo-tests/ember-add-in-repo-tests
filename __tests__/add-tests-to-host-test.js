@@ -87,9 +87,11 @@ describe('add-in-repo-tests-to-host', () => {
     await output.build();
 
     expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'bar-test.js': `console.log('bar-test')`,
+      'ember-add-in-repo-tests': {
+        foo: {
+          unit: {
+            'bar-test.js': `console.log('bar-test')`,
+          },
         },
       },
       unit: {
@@ -257,14 +259,16 @@ describe('add-in-repo-tests-to-host', () => {
     await output.build();
 
     expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'foo-test.js': `console.log('foo-test')`,
+      'ember-add-in-repo-tests': {
+        foo: {
+          unit: {
+            'foo-test.js': `console.log('foo-test')`,
+          },
         },
-      },
-      'bar-foo': {
-        unit: {
-          'bar-foo-test.js': `console.log('bar-foo-test')`,
+        'bar-foo': {
+          unit: {
+            'bar-foo-test.js': `console.log('bar-foo-test')`,
+          },
         },
       },
       unit: {
@@ -331,9 +335,11 @@ describe('add-in-repo-tests-to-host', () => {
     await output.build();
 
     expect(output.read()).toStrictEqual({
-      'bar-foo': {
-        unit: {
-          'bar-foo-test.js': `console.log('bar-foo-test')`,
+      'ember-add-in-repo-tests': {
+        'bar-foo': {
+          unit: {
+            'bar-foo-test.js': `console.log('bar-foo-test')`,
+          },
         },
       },
       unit: {
@@ -420,19 +426,21 @@ describe('add-in-repo-tests-to-host', () => {
     await output.build();
 
     expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'foo-test.js': `console.log('foo-test')`,
+      'ember-add-in-repo-tests': {
+        foo: {
+          unit: {
+            'foo-test.js': `console.log('foo-test')`,
+          },
         },
-      },
-      bar: {
-        unit: {
-          'bar-test.js': `console.log('bar-test')`,
+        bar: {
+          unit: {
+            'bar-test.js': `console.log('bar-test')`,
+          },
         },
-      },
-      'common-addon': {
-        integration: {
-          'common-addon-test.js': `console.log('common-addon-test')`,
+        'common-addon': {
+          integration: {
+            'common-addon-test.js': `console.log('common-addon-test')`,
+          },
         },
       },
     });
