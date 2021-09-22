@@ -29,7 +29,10 @@ describe('add-in-repo-tests-to-host', () => {
       root: input.path(),
     };
 
-    const node = addInRepoTestsToHost(project, () => false);
+    const node = addInRepoTestsToHost({
+      project,
+      shouldIncludeTestsInHost: () => false,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -78,10 +81,10 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -134,10 +137,10 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -181,11 +184,11 @@ describe('add-in-repo-tests-to-host', () => {
       return new Funnel(dir);
     };
 
-    const node = await addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost,
-      filterRepoAddon
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+      processTests: filterRepoAddon,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -250,10 +253,10 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -326,10 +329,10 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -417,10 +420,10 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
