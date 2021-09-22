@@ -159,7 +159,7 @@ describe('add-in-repo-tests-to-host', () => {
       addons: [],
       name: 'foo-app',
     };
-    debugger;
+
     const filterRepoAddon = (dir) => {
       glob.sync(`${dir._directoryPath}/*/**-test.js`).forEach((file) => {
         const content = fs
