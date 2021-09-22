@@ -1,6 +1,5 @@
 'use strict';
 
-const { expect } = require('chai');
 const { createTempDir, buildOutput } = require('broccoli-test-helper');
 const { glob } = require('glob');
 
@@ -32,7 +31,7 @@ describe('add-in-repo-tests-to-host', () => {
 
     const node = addInRepoTestsToHost(project, () => false);
     const output = await buildOutput(node);
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.log('hello world')` },
     });
 
@@ -81,7 +80,7 @@ describe('add-in-repo-tests-to-host', () => {
       (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       foo: {
         unit: {
           'bar-test.js': `console.log('bar-test')`,
@@ -133,7 +132,7 @@ describe('add-in-repo-tests-to-host', () => {
     );
     const output = await buildOutput(node);
 
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.log('hello world')` },
     });
 
@@ -178,7 +177,7 @@ describe('add-in-repo-tests-to-host', () => {
       filterRepoAddon
     );
     const output = await buildOutput(node);
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       unit: { 'foo-test.js': `console.error('hello world')` },
     });
 
@@ -243,7 +242,7 @@ describe('add-in-repo-tests-to-host', () => {
       (addon) => addon.includeTestsInHost
     );
     const output = await buildOutput(node);
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       foo: {
         unit: {
           'foo-test.js': `console.log('foo-test')`,
@@ -315,7 +314,7 @@ describe('add-in-repo-tests-to-host', () => {
     );
     const output = await buildOutput(node);
 
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       'bar-foo': {
         unit: {
           'bar-foo-test.js': `console.log('bar-foo-test')`,
@@ -402,7 +401,7 @@ describe('add-in-repo-tests-to-host', () => {
     );
     const output = await buildOutput(node);
 
-    expect(output.read()).to.deep.equal({
+    expect(output.read()).toStrictEqual({
       foo: {
         unit: {
           'foo-test.js': `console.log('foo-test')`,
