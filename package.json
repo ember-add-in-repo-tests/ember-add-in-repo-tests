@@ -1,21 +1,45 @@
 {
   "name": "ember-add-in-repo-tests",
   "version": "1.0.3",
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-add-in-repo-tests/ember-add-in-repo-tests.git"
+  },
   "license": "MIT",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test"
+  },
+  "dependencies": {
+    "broccoli-funnel": "^2.0.1",
+    "broccoli-merge-trees": "^2.0.0",
+    "broccoli-source": "^1.1.0"
   },
   "devDependencies": {
     "broccoli": "^1.1.4",
     "broccoli-cli": "^1.0.0",
     "broccoli-test-helper": "^1.2.0",
     "chai": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0"
   },
-  "dependencies": {
-    "broccoli-funnel": "^2.0.1",
-    "broccoli-merge-trees": "^2.0.0",
-    "broccoli-source": "^1.1.0"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
