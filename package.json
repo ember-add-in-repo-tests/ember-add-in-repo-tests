@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha test"
+    "test": "yarn lint && mocha test"
   },
   "dependencies": {
     "broccoli-funnel": "^2.0.1",
