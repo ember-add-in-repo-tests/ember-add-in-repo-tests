@@ -1,9 +1,8 @@
 const flattenAddons = require('../lib/flatten-addons');
-const { expect } = require('chai');
 
 describe('flatten-addons', () => {
   it('empty array returns empty array', () => {
-    expect(flattenAddons([])).to.deep.equal([]);
+    expect(flattenAddons([])).toStrictEqual([]);
   });
 
   it('should return addon given an addon', () => {
@@ -13,7 +12,7 @@ describe('flatten-addons', () => {
       addons: [],
     };
 
-    expect(flattenAddons([unestedAddon])).to.deep.equal([unestedAddon]);
+    expect(flattenAddons([unestedAddon])).toStrictEqual([unestedAddon]);
   });
 
   it('should flatten single nested addon', () => {
@@ -29,7 +28,7 @@ describe('flatten-addons', () => {
       ],
     };
 
-    expect(flattenAddons([addon])).to.deep.equal([
+    expect(flattenAddons([addon])).toStrictEqual([
       addon,
       { name: 'bar', root: 'tmp/bar', addons: [] },
     ]);
@@ -53,7 +52,7 @@ describe('flatten-addons', () => {
       ],
     };
 
-    expect(flattenAddons([addon])).to.deep.equal([
+    expect(flattenAddons([addon])).toStrictEqual([
       addon,
       {
         name: 'bar',
@@ -93,7 +92,7 @@ describe('flatten-addons', () => {
       ],
     };
 
-    expect(flattenAddons([addon])).to.deep.equal([
+    expect(flattenAddons([addon])).toStrictEqual([
       addon,
       {
         name: 'bar',

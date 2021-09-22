@@ -5,8 +5,13 @@ module.exports = {
     node: true,
     es6: true,
   },
-  plugins: ['node', 'prettier'],
-  extends: ['eslint:recommended', 'plugin:node/recommended', 'prettier'],
+  plugins: ['node', 'jest', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:node/recommended',
+    'plugin:jest/recommended',
+    'prettier',
+  ],
   parserOptions: {
     ecmaVersion: 2019,
     sourceType: 'module',
@@ -15,7 +20,7 @@ module.exports = {
     {
       files: ['test/**/*.js'],
       env: {
-        mocha: true,
+        jest: true,
       },
     },
   ],
