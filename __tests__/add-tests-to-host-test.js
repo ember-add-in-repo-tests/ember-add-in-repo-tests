@@ -1,30 +1,30 @@
-"use strict";
+'use strict';
 
-const { createTempDir, createBuilder } = require("broccoli-test-helper");
-const { glob } = require("glob");
+const { createTempDir, createBuilder } = require('broccoli-test-helper');
+const { glob } = require('glob');
 
-const fs = require("fs");
-const Funnel = require("broccoli-funnel");
+const fs = require('fs');
+const Funnel = require('broccoli-funnel');
 
-const addInRepoTestsToHost = require("../lib/add-in-repo-tests-to-host");
+const addInRepoTestsToHost = require('../lib/add-in-repo-tests-to-host');
 
-describe("add-in-repo-tests-to-host", () => {
-  it("Should always return app unit test trees", async () => {
+describe('add-in-repo-tests-to-host', () => {
+  it('Should always return app unit test trees', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
 
     const project = {
-      name: "foo-app",
+      name: 'foo-app',
       addons: [],
       root: input.path(),
     };
@@ -38,33 +38,33 @@ describe("add-in-repo-tests-to-host", () => {
     await output.build();
 
     expect(output.read()).toStrictEqual({
-      unit: { "foo-test.js": `console.log('hello world')` },
+      unit: { 'foo-test.js': `console.log('hello world')` },
     });
 
     input.dispose();
   });
 
-  it("Should merge unit tests of in repo addon", async () => {
+  it('Should merge unit tests of in repo addon', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       lib: {
         foo: {
-          "index.js": `module.exports = { name: 'foo', includeTestsInHost: true }`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "bar-test.js": `console.log('bar-test')`,
+              'bar-test.js': `console.log('bar-test')`,
             },
           },
         },
       },
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
@@ -73,12 +73,12 @@ describe("add-in-repo-tests-to-host", () => {
       root: input.path(),
       addons: [
         {
-          name: "foo",
+          name: 'foo',
           root: `${input.path()}/lib/foo`,
           includeTestsInHost: true,
         },
       ],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const node = addInRepoTestsToHost({
@@ -111,22 +111,22 @@ describe("add-in-repo-tests-to-host", () => {
     input.dispose();
   });
 
-  it("handles addons without test directories", async () => {
+  it('handles addons without test directories', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       lib: {
         foo: {
-          "index.js": `module.exports = { name: 'foo', includeTestsInHost: true }`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
         },
       },
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
@@ -135,12 +135,12 @@ describe("add-in-repo-tests-to-host", () => {
       root: input.path(),
       addons: [
         {
-          name: "foo",
-          root: input.path("lib/foo"),
+          name: 'foo',
+          root: input.path('lib/foo'),
           includeTestsInHost: true,
         },
       ],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const node = addInRepoTestsToHost({
@@ -162,16 +162,16 @@ describe("add-in-repo-tests-to-host", () => {
     input.dispose();
   });
 
-  it("filters addons by processing test contents", async () => {
+  it('filters addons by processing test contents', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
@@ -179,7 +179,7 @@ describe("add-in-repo-tests-to-host", () => {
     const project = {
       root: input.path(),
       addons: [],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const filterRepoAddon = (dir) => {
@@ -187,9 +187,9 @@ describe("add-in-repo-tests-to-host", () => {
         const content = fs
           .readFileSync(file)
           .toString()
-          .replace("console.log", "console.error");
+          .replace('console.log', 'console.error');
 
-        fs.writeFileSync(file, content, "utf8");
+        fs.writeFileSync(file, content, 'utf8');
       });
       return new Funnel(dir);
     };
@@ -214,36 +214,36 @@ describe("add-in-repo-tests-to-host", () => {
     input.dispose();
   });
 
-  it("addon recursively computes test trees based on initial predicate", async () => {
+  it('addon recursively computes test trees based on initial predicate', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       lib: {
         foo: {
-          "index.js": `module.exports = { name: 'foo', includeTestsInHost: true }`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "foo-test.js": `console.log('foo-test')`,
+              'foo-test.js': `console.log('foo-test')`,
             },
           },
         },
-        "bar-foo": {
-          "index.js": `module.exports = { name: 'bar-foo', includeTestsInHost: true }`,
-          "package.json": `in-repo package.json`,
+        'bar-foo': {
+          'index.js': `module.exports = { name: 'bar-foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "bar-foo-test.js": `console.log('bar-foo-test')`,
+              'bar-foo-test.js': `console.log('bar-foo-test')`,
             },
           },
         },
       },
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
@@ -252,19 +252,19 @@ describe("add-in-repo-tests-to-host", () => {
       root: input.path(),
       addons: [
         {
-          name: "foo",
-          root: input.path("lib/foo"),
+          name: 'foo',
+          root: input.path('lib/foo'),
           includeTestsInHost: true,
           addons: [
             {
-              name: "bar-foo",
-              root: input.path("lib/bar-foo"),
+              name: 'bar-foo',
+              root: input.path('lib/bar-foo'),
               includeTestsInHost: true,
             },
           ],
         },
       ],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const node = addInRepoTestsToHost({
@@ -304,31 +304,31 @@ describe("add-in-repo-tests-to-host", () => {
     input.dispose();
   });
 
-  it("detects nested addon even if parent addon does not match predicate", async () => {
+  it('detects nested addon even if parent addon does not match predicate', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo`,
-      "README.md": "lol",
-      "ember-cli-build.js": "bar",
+      'package.json': `foo`,
+      'README.md': 'lol',
+      'ember-cli-build.js': 'bar',
       lib: {
         foo: {
-          "index.js": `module.exports = { name: 'foo' }`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'foo' }`,
+          'package.json': `in-repo package.json`,
         },
-        "bar-foo": {
-          "index.js": `module.exports = { name: 'bar-foo', includeTestsInHost: true }`,
-          "package.json": `in-repo package.json`,
+        'bar-foo': {
+          'index.js': `module.exports = { name: 'bar-foo', includeTestsInHost: true }`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "bar-foo-test.js": `console.log('bar-foo-test')`,
+              'bar-foo-test.js': `console.log('bar-foo-test')`,
             },
           },
         },
       },
       tests: {
         unit: {
-          "foo-test.js": `console.log('hello world')`,
+          'foo-test.js': `console.log('hello world')`,
         },
       },
     });
@@ -337,18 +337,18 @@ describe("add-in-repo-tests-to-host", () => {
       root: input.path(),
       addons: [
         {
-          name: "foo",
-          root: input.path("lib/foo"),
+          name: 'foo',
+          root: input.path('lib/foo'),
           addons: [
             {
-              name: "bar-foo",
-              root: input.path("lib/bar-foo"),
+              name: 'bar-foo',
+              root: input.path('lib/bar-foo'),
               includeTestsInHost: true,
             },
           ],
         },
       ],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const node = addInRepoTestsToHost({
@@ -381,36 +381,36 @@ describe("add-in-repo-tests-to-host", () => {
     input.dispose();
   });
 
-  it("does not duplicate test files even if addons share a common dependency", async () => {
+  it('does not duplicate test files even if addons share a common dependency', async () => {
     const input = await createTempDir();
 
     input.write({
-      "package.json": `foo-app`,
+      'package.json': `foo-app`,
       lib: {
         foo: {
-          "index.js": `module.exports = { name: 'foo' }`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'foo' }`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "foo-test.js": `console.log('foo-test')`,
+              'foo-test.js': `console.log('foo-test')`,
             },
           },
         },
         bar: {
-          "index.js": `module.exports = { name: 'bar'}`,
-          "package.json": `in-repo package.json`,
+          'index.js': `module.exports = { name: 'bar'}`,
+          'package.json': `in-repo package.json`,
           tests: {
             unit: {
-              "bar-test.js": `console.log('bar-test')`,
+              'bar-test.js': `console.log('bar-test')`,
             },
           },
         },
-        "common-addon": {
-          "index.js": `module.exports = { name: 'common-addon'}`,
-          "package.json": "in-repo package.json",
+        'common-addon': {
+          'index.js': `module.exports = { name: 'common-addon'}`,
+          'package.json': 'in-repo package.json',
           tests: {
             integration: {
-              "common-addon-test.js": `console.log('common-addon-test')`,
+              'common-addon-test.js': `console.log('common-addon-test')`,
             },
           },
         },
@@ -421,31 +421,31 @@ describe("add-in-repo-tests-to-host", () => {
       root: input.path(),
       addons: [
         {
-          name: "foo",
-          root: input.path("lib/foo"),
+          name: 'foo',
+          root: input.path('lib/foo'),
           includeTestsInHost: true,
           addons: [
             {
-              name: "common-addon",
-              root: input.path("lib/common-addon"),
+              name: 'common-addon',
+              root: input.path('lib/common-addon'),
               includeTestsInHost: true,
             },
           ],
         },
         {
-          name: "bar",
-          root: input.path("lib/bar"),
+          name: 'bar',
+          root: input.path('lib/bar'),
           includeTestsInHost: true,
           addons: [
             {
-              name: "common-addon",
-              root: input.path("lib/common-addon"),
+              name: 'common-addon',
+              root: input.path('lib/common-addon'),
               includeTestsInHost: true,
             },
           ],
         },
       ],
-      name: "foo-app",
+      name: 'foo-app',
     };
 
     const node = addInRepoTestsToHost({
