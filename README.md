@@ -1,10 +1,15 @@
 # ember-add-in-repo-tests
 
-Provides ability to collocate in-repo addons app code and test code.
+> Allows Ember applications to co-locate their tests inside in-repo addons.
 
-Ideally we can have a structure like this:
+![CI Build](https://github.com/ember-add-in-repo-tests/ember-add-in-repo-tests/workflows/CI%20Build/badge.svg)
+[![License](https://img.shields.io/github/license/ember-add-in-repo-tests/ember-add-in-repo-tests.svg)](https://github.com/ember-add-in-repo-tests/ember-add-in-repo-tests/blob/master/package.json)
+[![Package Version](https://img.shields.io/npm/v/ember-add-in-repo-tests.svg?style=flat-square)](https://www.npmjs.com/package/ember-add-in-repo-tests)
+[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](#badge)
 
-```
+Adding this broccoli plugin to your `ember-cli-build.js` means you can have a structure like this in your Ember application:
+
+```sh-session
 .
 ├── lib
 │   ├── foo
@@ -30,7 +35,7 @@ And when we execute `ember test`, both `unit/multiply-test` + `unit/add-test` sh
 
 ## Usage
 
-```
+```sh-session
 npm install ember-add-in-repo-tests
 ```
 
