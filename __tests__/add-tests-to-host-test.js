@@ -29,7 +29,10 @@ describe('add-in-repo-tests-to-host', () => {
       root: input.path(),
     };
 
-    const node = addInRepoTestsToHost(project, () => false);
+    const node = addInRepoTestsToHost({
+      project,
+      shouldIncludeTestsInHost: () => false,
+    });
     const output = createBuilder(node);
 
     await output.build();
@@ -78,24 +81,32 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'bar-test.js': `console.log('bar-test')`,
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "ember-add-in-repo-tests": Object {
+          "lib": Object {
+            "foo": Object {
+              "tests": Object {
+                "unit": Object {
+                  "bar-test.js": "console.log('bar-test')",
+                },
+              },
+            },
+          },
         },
-      },
-      unit: {
-        'foo-test.js': `console.log('hello world')`,
-      },
-    });
+        "unit": Object {
+          "foo-test.js": "console.log('hello world')",
+        },
+      }
+    `);
 
     input.dispose();
   });
@@ -132,17 +143,21 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      unit: { 'foo-test.js': `console.log('hello world')` },
-    });
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "unit": Object {
+          "foo-test.js": "console.log('hello world')",
+        },
+      }
+    `);
 
     input.dispose();
   });
@@ -179,18 +194,22 @@ describe('add-in-repo-tests-to-host', () => {
       return new Funnel(dir);
     };
 
-    const node = await addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost,
-      filterRepoAddon
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+      processTests: filterRepoAddon,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      unit: { 'foo-test.js': `console.error('hello world')` },
-    });
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "unit": Object {
+          "foo-test.js": "console.error('hello world')",
+        },
+      }
+    `);
 
     input.dispose();
   });
@@ -248,29 +267,39 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'foo-test.js': `console.log('foo-test')`,
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "ember-add-in-repo-tests": Object {
+          "lib": Object {
+            "bar-foo": Object {
+              "tests": Object {
+                "unit": Object {
+                  "bar-foo-test.js": "console.log('bar-foo-test')",
+                },
+              },
+            },
+            "foo": Object {
+              "tests": Object {
+                "unit": Object {
+                  "foo-test.js": "console.log('foo-test')",
+                },
+              },
+            },
+          },
         },
-      },
-      'bar-foo': {
-        unit: {
-          'bar-foo-test.js': `console.log('bar-foo-test')`,
+        "unit": Object {
+          "foo-test.js": "console.log('hello world')",
         },
-      },
-      unit: {
-        'foo-test.js': `console.log('hello world')`,
-      },
-    });
+      }
+    `);
 
     input.dispose();
   });
@@ -322,24 +351,32 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      'bar-foo': {
-        unit: {
-          'bar-foo-test.js': `console.log('bar-foo-test')`,
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "ember-add-in-repo-tests": Object {
+          "lib": Object {
+            "bar-foo": Object {
+              "tests": Object {
+                "unit": Object {
+                  "bar-foo-test.js": "console.log('bar-foo-test')",
+                },
+              },
+            },
+          },
         },
-      },
-      unit: {
-        'foo-test.js': `console.log('hello world')`,
-      },
-    });
+        "unit": Object {
+          "foo-test.js": "console.log('hello world')",
+        },
+      }
+    `);
 
     input.dispose();
   });
@@ -411,31 +448,43 @@ describe('add-in-repo-tests-to-host', () => {
       name: 'foo-app',
     };
 
-    const node = addInRepoTestsToHost(
+    const node = addInRepoTestsToHost({
       project,
-      (addon) => addon.includeTestsInHost
-    );
+      shouldIncludeTestsInHost: (addon) => addon.includeTestsInHost,
+    });
     const output = createBuilder(node);
 
     await output.build();
 
-    expect(output.read()).toStrictEqual({
-      foo: {
-        unit: {
-          'foo-test.js': `console.log('foo-test')`,
+    expect(output.read()).toMatchInlineSnapshot(`
+      Object {
+        "ember-add-in-repo-tests": Object {
+          "lib": Object {
+            "bar": Object {
+              "tests": Object {
+                "unit": Object {
+                  "bar-test.js": "console.log('bar-test')",
+                },
+              },
+            },
+            "common-addon": Object {
+              "tests": Object {
+                "integration": Object {
+                  "common-addon-test.js": "console.log('common-addon-test')",
+                },
+              },
+            },
+            "foo": Object {
+              "tests": Object {
+                "unit": Object {
+                  "foo-test.js": "console.log('foo-test')",
+                },
+              },
+            },
+          },
         },
-      },
-      bar: {
-        unit: {
-          'bar-test.js': `console.log('bar-test')`,
-        },
-      },
-      'common-addon': {
-        integration: {
-          'common-addon-test.js': `console.log('common-addon-test')`,
-        },
-      },
-    });
+      }
+    `);
 
     input.dispose();
   });

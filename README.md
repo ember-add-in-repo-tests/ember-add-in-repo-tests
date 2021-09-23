@@ -35,6 +35,7 @@ npm install ember-add-in-repo-tests
 ```
 
 Import the function
+
 ```javascript
 const { addInRepoTestsToHost } = require('ember-add-in-repo-tests');
 ```
@@ -60,19 +61,43 @@ module.exports = {
 We can define the predicate as
 
 ```javascript
-const inRepoAddonPredicate = addon => addon.includeTestsInHost;
+const shouldIncludeTestsInHost = (addon) => addon.includeTestsInHost;
 ```
 
 We can now override the test tree in `ember-cli-build`. Full code below
 
 ```javascript
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const inRepoAddonPredicate = (addon) => addon.includeTestsInHost;
+const shouldIncludeTestsInHost = (addon) => addon.includeTestsInHost;
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     trees: {
-      tests: addInRepoTestsToHost(defaults.project, inRepoAddonPredicate),
+      tests: addInRepoTestsToHost({
+        project: defaults.project,
+        shouldIncludeTestsInHost,
+      }),
+    },
+  });
+
+  return app.toTree();
+};
+```
+
+You can additionally pass in a `projectRoot` to the options to override the root of the project. By default, `projectRoot` is `defaults.project.root`.
+
+```javascript
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const shouldIncludeTestsInHost = (addon) => addon.includeTestsInHost;
+
+module.exports = function (defaults) {
+  let app = new EmberApp(defaults, {
+    trees: {
+      tests: addInRepoTestsToHost({
+        project: defaults.project,
+        projectRoot: customProjectRoot,
+        shouldIncludeTestsInHost,
+      }),
     },
   });
 

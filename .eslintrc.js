@@ -14,7 +14,7 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 2019,
-    sourceType: 'module',
+    sourceType: 'script',
   },
   overrides: [
     {
